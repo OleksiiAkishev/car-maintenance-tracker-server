@@ -1,4 +1,4 @@
-﻿using CarMaintenanceTrackerServer.DTOs.Car;
+﻿using CarMaintenanceTrackerServer.DTOs.Car.Request;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarMaintenanceTrackerServer.Controllers
@@ -7,6 +7,12 @@ namespace CarMaintenanceTrackerServer.Controllers
     [ApiController]
     public class CarController : ControllerBase
     {
+        [HttpGet("{carId}")]
+        public IActionResult GetCar(int carId)
+        {
+            return Ok();
+        }
+
         [HttpGet]
         public IActionResult GetAllCars()
         {
@@ -14,13 +20,13 @@ namespace CarMaintenanceTrackerServer.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddCar(CarRequestDto car)
+        public IActionResult AddCar(AddOrUpdateCarRequestDto car)
         {
             return Ok();
         }
 
         [HttpPut]
-        public IActionResult UpdateCar(CarRequestDto car)
+        public IActionResult UpdateCar(AddOrUpdateCarRequestDto car)
         {
             return Ok();
         }
