@@ -1,4 +1,4 @@
-﻿using CarMaintenanceTrackerServer.DTOs.Maintenance;
+﻿using CarMaintenanceTrackerServer.DTOs.Maintenance.Request;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarMaintenanceTrackerServer.Controllers
@@ -8,7 +8,7 @@ namespace CarMaintenanceTrackerServer.Controllers
     public class MaintenanceController : ControllerBase
     {
         [HttpPost("log")]
-        public IActionResult LogMaintenance(MaintenanceLogRequestDto maintenanceLog)
+        public IActionResult LogMaintenance(LogMaintenanceRequestDto maintenanceLog)
         {
             return Ok();
         }
