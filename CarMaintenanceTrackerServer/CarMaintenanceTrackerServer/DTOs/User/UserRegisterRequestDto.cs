@@ -1,4 +1,4 @@
-﻿namespace CarMaintenanceTrackerServer.DTOs
+﻿namespace CarMaintenanceTrackerServer.DTOs.User
 {
     public class UserRegisterRequestDto
     {
