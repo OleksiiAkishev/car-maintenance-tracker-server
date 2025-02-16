@@ -1,4 +1,4 @@
-﻿using CarMaintenanceTrackerServer.DTOs.User;
+﻿using CarMaintenanceTrackerServer.DTOs.User.Request;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarMaintenanceTrackerServer.Controllers
