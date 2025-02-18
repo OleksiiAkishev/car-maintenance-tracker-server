@@ -5,7 +5,11 @@ namespace CarMaintenanceTrackerServer.Repositories.User
 {
     public interface IUserRepository
     {
-        Task<UserRegisterResponseDto> RegisterUser(UserEntity user);
-        Task<UserLoginResponseDto> LoginUser(int userId);
+        Task<UserEntity> RegisterUser(UserEntity user);
+        Task<UserEntity?> LoginUser(int userId);
+        Task<UserEntity?> GetUserById(int userId);
+        Task<UserEntity?> GetUserByUsername(string username);
+        Task<UserEntity> UpdateUser(UserEntity user);
+        Task<bool> DeleteUser(int userId); 
     }
 }
