@@ -5,7 +5,11 @@ namespace CarMaintenanceTrackerServer.Services.User
 {
     public interface IUserService
     {
-        Task<UserRegisterResponseDto> RegisterUser(UserRegisterRequestDto user);
-        Task<UserLoginResponseDto> LoginUser(UserLoginRequestDto user);
+        Task<RegisterUserResponseDto> RegisterUser(RegisterUserRequestDto user);
+        Task<LoginUserResponseDto> LoginUser(LoginUserRequestDto user);
+        Task<GetUserResponse> GetUserById(int userId);
+        Task<GetUserResponse> GetUserByUsername(string username);
+        Task<UpdateUserResponseDto> UpdateUser(UpdateUserRequestDto user);
+        Task<bool> DeleteUser(int userId);
     }
 }

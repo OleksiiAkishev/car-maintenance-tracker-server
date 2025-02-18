@@ -1,6 +1,6 @@
 ﻿namespace CarMaintenanceTrackerServer.DTOs.User.Request
 {
-    public class UserLoginRequestDto
+    public class LoginUserRequestDto
     {
     }
 }

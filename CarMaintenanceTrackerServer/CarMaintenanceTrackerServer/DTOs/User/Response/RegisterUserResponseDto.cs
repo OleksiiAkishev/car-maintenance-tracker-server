@@ -1,6 +1,6 @@
 ﻿namespace CarMaintenanceTrackerServer.DTOs.User.Response
 {
-    public class UserRegisterResponseDto
+    public class RegisterUserResponseDto
     {
     }
 }

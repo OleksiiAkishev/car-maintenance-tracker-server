@@ -8,13 +8,13 @@ namespace CarMaintenanceTrackerServer.Controllers
     public class UserController : ControllerBase
     {
         [HttpPost("register")]
-        public IActionResult Register([FromBody] UserRegisterRequestDto user)
+        public IActionResult Register([FromBody] RegisterUserRequestDto user)
         {
             return Ok();
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] UserLoginRequestDto user)
+        public IActionResult Login([FromBody] LoginUserRequestDto user)
         {
             return Ok();
         }
