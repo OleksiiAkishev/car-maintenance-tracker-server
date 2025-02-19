@@ -1,6 +1,6 @@
-﻿using CarEntity = CarMaintenanceTrackerServer.Entities.Car;
+﻿using CarEntity = CarMaintenanceTrackerServer.Data.Entities.Car;
 
-namespace CarMaintenanceTrackerServer.Repositories.Car
+namespace CarMaintenanceTrackerServer.Data.Repositories.Car
 {
     public class CarRepository : ICarRepository
     {
@@ -18,7 +18,7 @@ namespace CarMaintenanceTrackerServer.Repositories.Car
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Entities.Car>> GetAllCars()
+        public Task<IEnumerable<CarEntity>> GetAllCars()
         {
             throw new NotImplementedException();
         }

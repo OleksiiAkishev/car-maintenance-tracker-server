@@ -1,6 +1,6 @@
-﻿using CarEntity = CarMaintenanceTrackerServer.Entities.Car;
+﻿using CarEntity = CarMaintenanceTrackerServer.Data.Entities.Car;
 
-namespace CarMaintenanceTrackerServer.Repositories.Car
+namespace CarMaintenanceTrackerServer.Data.Repositories.Car
 {
     public interface ICarRepository
     {

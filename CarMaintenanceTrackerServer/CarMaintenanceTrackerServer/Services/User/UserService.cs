@@ -1,7 +1,7 @@
-﻿using CarMaintenanceTrackerServer.DTOs.User.Request;
+﻿using CarMaintenanceTrackerServer.Data.Repositories.UserRepository;
+using CarMaintenanceTrackerServer.DTOs.User.Request;
 using CarMaintenanceTrackerServer.DTOs.User.Response;
 using CarMaintenanceTrackerServer.Mappers.User;
-using CarMaintenanceTrackerServer.Repositories.User;
 
 namespace CarMaintenanceTrackerServer.Services.User
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CarMaintenanceTrackerServer.Entities
+namespace CarMaintenanceTrackerServer.Data.Entities
 {
     public class User
     {
