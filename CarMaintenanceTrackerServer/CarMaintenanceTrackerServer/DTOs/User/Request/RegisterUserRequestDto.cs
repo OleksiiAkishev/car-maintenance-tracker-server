@@ -5,11 +5,11 @@ namespace CarMaintenanceTrackerServer.DTOs.User.Request
     public class RegisterUserRequestDto
     {
         [Required]
-        public required string UserName { get; set; }
+        public required string Username { get; set; }
 
         [Required]
         [EmailAddress]
-        public required string EmailAddress { get; set; }
+        public required string Email { get; set; }
 
         [Required]
         [MinLength(8)]

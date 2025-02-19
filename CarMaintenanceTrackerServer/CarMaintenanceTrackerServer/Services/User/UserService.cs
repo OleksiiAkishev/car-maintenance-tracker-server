@@ -1,13 +1,15 @@
 ﻿using CarMaintenanceTrackerServer.Data.Repositories.UserRepository;
 using CarMaintenanceTrackerServer.DTOs.User.Request;
 using CarMaintenanceTrackerServer.DTOs.User.Response;
+using CarMaintenanceTrackerServer.Handlers;
 using CarMaintenanceTrackerServer.Mappers.UserMapper;
 
 namespace CarMaintenanceTrackerServer.Services.User
 {
-    public class UserService(IUserRepository userRepository, IUserMapper userMapper) : IUserService
+    public class UserService(IUserRepository userRepository, IUserMapper userMapper, IPasswordHasherHandler passwordHasherHandler) : IUserService
     {
         private readonly IUserRepository userRepository = userRepository;
+        private readonly IPasswordHasherHandler passwordHasherHandler = passwordHasherHandler;
         private readonly IUserMapper userMapper = userMapper;
 
         public async Task<RegisterUserResponseDto> RegisterUser(RegisterUserRequestDto user)
