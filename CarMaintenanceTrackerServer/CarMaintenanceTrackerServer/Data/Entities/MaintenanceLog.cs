@@ -1,16 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CarMaintenanceTrackerServer.Entities
+namespace CarMaintenanceTrackerServer.Data.Entities
 {
-    public class Reminder
+    public class MaintenanceLog
     {
         public int Id { get; set; }
 
-        public DateTime ReminderDate { get; set; }
+        public DateTime Date { get; set; }
+
+        public string? ServiceType { get; set; }
 
         public int Mileage { get; set; }
 
-        public string ServiceType { get; set; } = string.Empty;
+        public string? Notes { get; set; }
 
         public int CarId { get; set; }
 

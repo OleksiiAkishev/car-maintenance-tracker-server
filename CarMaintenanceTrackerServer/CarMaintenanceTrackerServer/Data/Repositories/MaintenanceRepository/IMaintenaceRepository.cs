@@ -1,6 +1,6 @@
-﻿using CarMaintenanceTrackerServer.Entities;
+﻿using CarMaintenanceTrackerServer.Data.Entities;
 
-namespace CarMaintenanceTrackerServer.Repositories.Maintenance
+namespace CarMaintenanceTrackerServer.Data.Repositories.Maintenance
 {
     public interface IMaintenaceRepository
     {

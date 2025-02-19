@@ -1,4 +1,4 @@
-﻿using CarMaintenanceTrackerServer.Entities;
+﻿using CarMaintenanceTrackerServer.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarMaintenanceTrackerServer.Data
