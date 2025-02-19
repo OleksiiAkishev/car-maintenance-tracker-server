@@ -1,49 +1,64 @@
 ﻿using CarMaintenanceTrackerServer.Data.Repositories.UserRepository;
 using CarMaintenanceTrackerServer.DTOs.User.Request;
 using CarMaintenanceTrackerServer.DTOs.User.Response;
-using CarMaintenanceTrackerServer.Mappers.User;
+using CarMaintenanceTrackerServer.Handlers;
+using CarMaintenanceTrackerServer.Mappers.UserMapper;
 
 namespace CarMaintenanceTrackerServer.Services.User
 {
-    public class UserService : IUserService
+    public class UserService(IUserRepository userRepository, IUserMapper userMapper, IPasswordHasherHandler passwordHasherHandler) : IUserService
     {
-        private readonly IUserRepository userRepository;
-        private readonly IUserMapper userMapper;
+        private readonly IUserRepository userRepository = userRepository;
+        private readonly IPasswordHasherHandler passwordHasherHandler = passwordHasherHandler;
+        private readonly IUserMapper userMapper = userMapper;
 
-        public UserService(IUserRepository userRepository, IUserMapper userMapper)
+        public async Task<RegisterUserResponseDto> RegisterUser(RegisterUserRequestDto user)
         {
-            this.userRepository = userRepository;
-            this.userMapper = userMapper;
+            var result = new RegisterUserResponseDto();
+            if (user != null) 
+            {
+                var userEntity = this.userMapper.MapRegisterUserRequestDtoToUser(user);
+                var registeredUser = await this.userRepository.RegisterUser(userEntity);
+                if (registeredUser != null) 
+                {
+                    result = this.userMapper.MapUserToRegisterUserResponseDto(registeredUser);
+                    return result;
+                }
+            }
+            return result;
         }
 
-        public Task<RegisterUserResponseDto> RegisterUser(RegisterUserRequestDto user)
+        public async Task<LoginUserResponseDto> LoginUser(LoginUserRequestDto user)
+        {
+            if (user != null) 
+            {
+
+            }
+        }
+
+        public async Task<GetUserResponse> GetUserById(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<GetUserResponse> GetUserByUsername(string username)
         {
             throw new NotImplementedException();
         }
 
-        public Task<LoginUserResponseDto> LoginUser(LoginUserRequestDto user)
+        public async Task<UpdateUserResponseDto> UpdateUser(UpdateUserRequestDto user)
         {
             throw new NotImplementedException();
         }
 
-        public Task<GetUserResponse> GetUserById(int userId)
+        public async Task<bool> DeleteUser(int userId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<GetUserResponse> GetUserByUsername(string username)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<UpdateUserResponseDto> UpdateUser(UpdateUserRequestDto user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> DeleteUser(int userId)
-        {
-            throw new NotImplementedException();
-        }
+        //private bool IsRequestUserValid(T user) where T : class
+        //{
+        //    return user != null;
+        //}
     }
 }
