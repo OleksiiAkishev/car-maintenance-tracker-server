@@ -1,7 +1,7 @@
 ﻿using CarMaintenanceTrackerServer.DTOs.User.Request;
 using CarMaintenanceTrackerServer.DTOs.User.Response;
 
-namespace CarMaintenanceTrackerServer.Services.User
+namespace CarMaintenanceTrackerServer.Services.UserService
 {
     public interface IUserService
     {

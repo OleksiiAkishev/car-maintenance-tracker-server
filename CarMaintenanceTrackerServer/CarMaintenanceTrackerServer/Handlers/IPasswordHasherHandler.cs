@@ -1,8 +1,8 @@
 ﻿namespace CarMaintenanceTrackerServer.Handlers
 {
-    public interface IPasswordHasherHandler
+    public interface IPasswordHasherHandler<in TUser> where TUser : class
     {
-        string HashPassword(string password);
-        bool VerifyHashedPassword(string hashedPassword, string providedPassword);
+        string HashPassword(TUser user, string password);
+        bool VerifyHashedPassword(TUser user, string hashedPassword, string providedPassword);
     }
 }

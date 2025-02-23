@@ -1,16 +1,17 @@
-﻿using CarMaintenanceTrackerServer.Data.Repositories.UserRepository;
+﻿using CarMaintenanceTrackerServer.Data.Entities;
+using CarMaintenanceTrackerServer.Data.Repositories.UserRepository;
 using CarMaintenanceTrackerServer.DTOs.User.Request;
 using CarMaintenanceTrackerServer.DTOs.User.Response;
 using CarMaintenanceTrackerServer.Handlers;
 using CarMaintenanceTrackerServer.Mappers.UserMapper;
 using CarMaintenanceTrackerServer.Result;
 
-namespace CarMaintenanceTrackerServer.Services.User
+namespace CarMaintenanceTrackerServer.Services.UserService
 {
-    public class UserService(IUserRepository userRepository, IPasswordHasherHandler passwordHasherHandler, IUserMapper userMapper) : IUserService
+    public class UserService(IUserRepository userRepository, IPasswordHasherHandler<User> passwordHasherHandler, IUserMapper userMapper) : IUserService
     {
         private readonly IUserRepository userRepository = userRepository;
-        private readonly IPasswordHasherHandler passwordHasherHandler = passwordHasherHandler;
+        private readonly IPasswordHasherHandler<User> passwordHasherHandler = passwordHasherHandler;
         private readonly IUserMapper userMapper = userMapper;
 
         public async Task<RegisterUserResponseDto> RegisterUser(RegisterUserRequestDto user)
@@ -18,11 +19,11 @@ namespace CarMaintenanceTrackerServer.Services.User
             var result = new RegisterUserResponseDto();
             if (user != null) 
             {
-                var userEntity = this.userMapper.MapRegisterUserRequestDtoToUser(user);
-                var registeredUser = await this.userRepository.RegisterUser(userEntity);
+                var userEntity = userMapper.MapRegisterUserRequestDtoToUser(user);
+                var registeredUser = await userRepository.RegisterUser(userEntity);
                 if (registeredUser != null) 
                 {
-                    var successResult = ResultFactory.CreateSuccessResult(this.userMapper.MapUserToRegisterUserResponseDto(registeredUser)).Value;
+                    var successResult = ResultFactory.CreateSuccessResult(userMapper.MapUserToRegisterUserResponseDto(registeredUser)).Value;
                     return successResult;
                 }
             }
@@ -35,7 +36,7 @@ namespace CarMaintenanceTrackerServer.Services.User
             {
 
             }
-            await this.userRepository.LoginUser(1);
+            await userRepository.LoginUser(1);
             return new LoginUserResponseDto();
         }
 

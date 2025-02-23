@@ -1,7 +1,7 @@
 ﻿using CarMaintenanceTrackerServer.DTOs.Maintenance.Request;
 using CarMaintenanceTrackerServer.DTOs.Maintenance.Response;
 
-namespace CarMaintenanceTrackerServer.Services.Maintenance
+namespace CarMaintenanceTrackerServer.Services.MaintenanceService
 {
     public class MaintenanceService : IMaintenanceService
     {
