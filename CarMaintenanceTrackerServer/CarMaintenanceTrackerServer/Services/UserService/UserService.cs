@@ -107,12 +107,44 @@ namespace CarMaintenanceTrackerServer.Services.UserService
 
         public async Task<UpdateUserResponseDto> UpdateUser(UpdateUserRequestDto user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userEntity = await this.userRepository.GetUserById(user.Id);
+                if (userEntity == null)
+                {
+                    this.logger.LogError("User with the \"userId=\"{UserId} was not found.", user.Id);
+                    return ResultFactory.CreateFailureResult<UpdateUserResponseDto>(new ErrorDetails($"{ErrorDetailCodes.UPDATE_USER_ERROR.GetDisplayName()}", "User not found.")).Value ?? new UpdateUserResponseDto();
+                }
+                if (!string.IsNullOrEmpty(user.Username) && user.Username != userEntity.Username)
+                {
+                    userEntity.Username = user.Username;
+                }
+                if (!string.IsNullOrEmpty(user.Email) && user.Email != userEntity.Email)
+                {
+                    userEntity.Email = user.Email;
+                }
+                var updatedUser = await this.userRepository.UpdateUser(userEntity);
+                return ResultFactory.CreateSuccessResult(this.userMapper.MapUserToUpdateUserResponseDto(updatedUser)).Value;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "An error occurred while updating the user.");
+                return ResultFactory.CreateFailureResult<UpdateUserResponseDto>(new ErrorDetails($"{ErrorDetailCodes.UPDATE_USER_ERROR.GetDisplayName()}", $"{ex.Message}", $"{ex.StackTrace}")).Value ?? new UpdateUserResponseDto();
+            }
         }
 
         public async Task<bool> DeleteUser(int userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var deletedUserResult = await this.userRepository.DeleteUser(userId);
+                return ResultFactory.CreateSuccessResult(deletedUserResult).Value;
+            }
+            catch (Exception ex) 
+            {
+                this.logger.LogError(ex, "An error occurred while deleting the user.");
+                return ResultFactory.CreateFailureResult<bool>(new ErrorDetails($"{ErrorDetailCodes.DELETE_USER_ERROR.GetDisplayName()}", $"{ex.Message}", $"{ex.StackTrace}")).Value;
+            }
         }
     }
 }

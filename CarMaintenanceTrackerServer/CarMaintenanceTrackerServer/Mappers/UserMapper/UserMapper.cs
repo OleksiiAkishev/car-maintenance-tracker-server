@@ -11,12 +11,22 @@ namespace CarMaintenanceTrackerServer.Mappers.UserMapper
             throw new NotImplementedException();
         }
 
+        public GetUserResponse MapUserToGetUserResponse(User user)
+        {
+            throw new NotImplementedException();
+        }
+
         public LoginUserResponseDto MapUserToLoginUserResponseDto(User user)
         {
             throw new NotImplementedException();
         }
 
         public RegisterUserResponseDto MapUserToRegisterUserResponseDto(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UpdateUserResponseDto MapUserToUpdateUserResponseDto(User user)
         {
             throw new NotImplementedException();
         }

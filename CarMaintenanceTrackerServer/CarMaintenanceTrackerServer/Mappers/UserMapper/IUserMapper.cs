@@ -10,5 +10,6 @@ namespace CarMaintenanceTrackerServer.Mappers.UserMapper
         RegisterUserResponseDto MapUserToRegisterUserResponseDto(User user);
         LoginUserResponseDto MapUserToLoginUserResponseDto(User user);
         GetUserResponse MapUserToGetUserResponse(User user);
+        UpdateUserResponseDto MapUserToUpdateUserResponseDto(User user);
     }
 }
