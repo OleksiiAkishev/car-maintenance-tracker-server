@@ -9,7 +9,7 @@ namespace CarMaintenanceTrackerServer.Result
             return new SuccessResult<T>(value);
         }
 
-        public static IFailureResult<T> CreateErrorResult<T>(IResultError error)
+        public static IFailureResult<T> CreateFailureResult<T>(IResultError error)
         {
             return new FailureResult<T>(new ErrorDetails(error.Code, error.Message, error.Detail));
         }
