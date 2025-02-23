@@ -69,7 +69,21 @@ namespace CarMaintenanceTrackerServer.Services.UserService
 
         public async Task<GetUserResponse> GetUserById(int userId)
         {
-            throw new NotImplementedException();
+            try 
+            {
+                var userEntity = await this.userRepository.GetUserById(userId);
+                if (userEntity == null)
+                {
+                    this.logger.LogError("User with the \"userId=\"{UserId} was not found.", userId);
+                    return ResultFactory.CreateFailureResult<GetUserResponse>(new ErrorDetails($"{ErrorDetailCodes.FIND_USER_ERROR.GetDisplayName()}", "User not found.")).Value ?? new GetUserResponse();
+                }
+                return ResultFactory.CreateSuccessResult(this.userMapper.MapUserToGetUserResponse(userEntity)).Value;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "An error occurred while logging in the user.");
+                return ResultFactory.CreateFailureResult<GetUserResponse>(new ErrorDetails($"{ErrorDetailCodes.FIND_USER_ERROR.GetDisplayName()}", $"{ex.Message}", $"{ex.StackTrace}")).Value ?? new GetUserResponse();
+            }
         }
 
         public async Task<GetUserResponse> GetUserByUsername(string username)
@@ -86,10 +100,5 @@ namespace CarMaintenanceTrackerServer.Services.UserService
         {
             throw new NotImplementedException();
         }
-
-        //private bool IsRequestUserValid(T user) where T : class
-        //{
-        //    return user != null;
-        //}
     }
 }

@@ -9,6 +9,8 @@ namespace CarMaintenanceTrackerServer.Result
         [Description("User registration error")]
         REGISTER_USER_ERROR,
         [Description("User login error")]
-        LOGIN_USER_ERROR
+        LOGIN_USER_ERROR,
+        [Description("User find error")]
+        FIND_USER_ERROR
     }
 }
