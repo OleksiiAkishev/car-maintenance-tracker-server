@@ -81,14 +81,28 @@ namespace CarMaintenanceTrackerServer.Services.UserService
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "An error occurred while logging in the user.");
+                this.logger.LogError(ex, "An error occurred while getting the user.");
                 return ResultFactory.CreateFailureResult<GetUserResponse>(new ErrorDetails($"{ErrorDetailCodes.FIND_USER_ERROR.GetDisplayName()}", $"{ex.Message}", $"{ex.StackTrace}")).Value ?? new GetUserResponse();
             }
         }
 
         public async Task<GetUserResponse> GetUserByUsername(string username)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userEntity = await this.userRepository.GetUserByUsername(username);
+                if (userEntity == null)
+                {
+                    this.logger.LogError("User with the \"username=\"{UserName} was not found.", username);
+                    return ResultFactory.CreateFailureResult<GetUserResponse>(new ErrorDetails($"{ErrorDetailCodes.FIND_USER_ERROR.GetDisplayName()}", "User not found.")).Value ?? new GetUserResponse();
+                }
+                return ResultFactory.CreateSuccessResult(this.userMapper.MapUserToGetUserResponse(userEntity)).Value;
+            }
+            catch (Exception ex) 
+            {
+                this.logger.LogError(ex, "An error occurred while getting the user.");
+                return ResultFactory.CreateFailureResult<GetUserResponse>(new ErrorDetails($"{ErrorDetailCodes.FIND_USER_ERROR.GetDisplayName()}", $"{ex.Message}", $"{ex.StackTrace}")).Value ?? new GetUserResponse();
+            }
         }
 
         public async Task<UpdateUserResponseDto> UpdateUser(UpdateUserRequestDto user)
