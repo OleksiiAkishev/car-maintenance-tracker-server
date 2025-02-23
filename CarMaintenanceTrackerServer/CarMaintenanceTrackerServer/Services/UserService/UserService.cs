@@ -20,6 +20,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
         {
             if (user == null)
             {
+                this.logger.LogError("Requested register user is null.");
                 return ResultFactory.CreateFailureResult<RegisterUserResponseDto>(new ErrorDetails($"{ErrorDetailCodes.NULL_USER_ERROR.GetDisplayName()}", "Provided user is null.")).Value ?? new RegisterUserResponseDto();
             }
             try
@@ -39,12 +40,31 @@ namespace CarMaintenanceTrackerServer.Services.UserService
 
         public async Task<LoginUserResponseDto> LoginUser(LoginUserRequestDto user)
         {
-            if (user != null)
+            if (user == null)
             {
-
+                this.logger.LogError("Requested login user is null.");
+                return ResultFactory.CreateFailureResult<LoginUserResponseDto>(new ErrorDetails($"{ErrorDetailCodes.NULL_USER_ERROR.GetDisplayName()}", "Provided user is null.")).Value ?? new LoginUserResponseDto();
             }
-            await userRepository.LoginUser(1);
-            return new LoginUserResponseDto();
+            try
+            {
+                var userEntity = await userRepository.GetUserByUsername(user.Username);
+                if (userEntity == null) 
+                {
+                    this.logger.LogError("User with the \"username=\"{UserName} was not found.", user.Username);
+                    return ResultFactory.CreateFailureResult<LoginUserResponseDto>(new ErrorDetails($"{ErrorDetailCodes.LOGIN_USER_ERROR.GetDisplayName()}", "User not found.")).Value ?? new LoginUserResponseDto();
+                }
+                if (!this.passwordHasherHandler.VerifyHashedPassword(userEntity, userEntity.PasswordHash, user.Password))
+                {
+                    this.logger.LogError("User with the \"username=\"{UserName} provided an incorrect password.", user.Username);
+                    return ResultFactory.CreateFailureResult<LoginUserResponseDto>(new ErrorDetails($"{ErrorDetailCodes.LOGIN_USER_ERROR.GetDisplayName()}", "Incorrect password.")).Value ?? new LoginUserResponseDto();
+                }
+                return ResultFactory.CreateSuccessResult(userMapper.MapUserToLoginUserResponseDto(userEntity)).Value;
+            }
+            catch (Exception ex) 
+            {
+                this.logger.LogError(ex, "An error occurred while logging in the user.");
+                return ResultFactory.CreateFailureResult<LoginUserResponseDto>(new ErrorDetails($"{ErrorDetailCodes.LOGIN_USER_ERROR.GetDisplayName()}", $"{ex.Message}", $"{ex.StackTrace}")).Value ?? new LoginUserResponseDto();
+            }
         }
 
         public async Task<GetUserResponse> GetUserById(int userId)
