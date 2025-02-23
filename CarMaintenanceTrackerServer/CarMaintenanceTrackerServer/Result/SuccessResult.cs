@@ -2,11 +2,11 @@
 
 namespace CarMaintenanceTrackerServer.Result
 {
-    public class SuccessResult<T>(T value) : IResult<T>
+    public class SuccessResult<T>(T value) : ISuccessResult<T> where T : notnull
     {
         public bool IsSuccess { get; } = true;
 
-        public T? Value { get; } = value;
+        public T Value { get; } = value;
 
         public IResultError? Error { get; } = null;
     }

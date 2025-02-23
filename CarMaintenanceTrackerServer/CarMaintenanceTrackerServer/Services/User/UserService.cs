@@ -3,10 +3,11 @@ using CarMaintenanceTrackerServer.DTOs.User.Request;
 using CarMaintenanceTrackerServer.DTOs.User.Response;
 using CarMaintenanceTrackerServer.Handlers;
 using CarMaintenanceTrackerServer.Mappers.UserMapper;
+using CarMaintenanceTrackerServer.Result;
 
 namespace CarMaintenanceTrackerServer.Services.User
 {
-    public class UserService(IUserRepository userRepository, IUserMapper userMapper, IPasswordHasherHandler passwordHasherHandler) : IUserService
+    public class UserService(IUserRepository userRepository, IPasswordHasherHandler passwordHasherHandler, IUserMapper userMapper) : IUserService
     {
         private readonly IUserRepository userRepository = userRepository;
         private readonly IPasswordHasherHandler passwordHasherHandler = passwordHasherHandler;
@@ -21,8 +22,8 @@ namespace CarMaintenanceTrackerServer.Services.User
                 var registeredUser = await this.userRepository.RegisterUser(userEntity);
                 if (registeredUser != null) 
                 {
-                    result = this.userMapper.MapUserToRegisterUserResponseDto(registeredUser);
-                    return result;
+                    var successResult = ResultFactory.CreateSuccessResult(this.userMapper.MapUserToRegisterUserResponseDto(registeredUser)).Value;
+                    return successResult;
                 }
             }
             return result;
@@ -34,6 +35,8 @@ namespace CarMaintenanceTrackerServer.Services.User
             {
 
             }
+            await this.userRepository.LoginUser(1);
+            return new LoginUserResponseDto();
         }
 
         public async Task<GetUserResponse> GetUserById(int userId)
