@@ -1,0 +1,1 @@
+1. UserMapper, MapUserToGetUserResponse -> no mapping for the cars in the GetUserResponse.To be added.
