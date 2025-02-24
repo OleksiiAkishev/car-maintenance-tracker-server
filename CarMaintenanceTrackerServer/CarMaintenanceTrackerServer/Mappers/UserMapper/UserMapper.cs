@@ -8,27 +8,51 @@ namespace CarMaintenanceTrackerServer.Mappers.UserMapper
     {
         public User MapRegisterUserRequestDtoToUser(RegisterUserRequestDto user)
         {
-            throw new NotImplementedException();
+            return new User
+            {
+                Username = user.Username,
+                Email = user.Email
+            };
         }
 
         public GetUserResponse MapUserToGetUserResponse(User user)
         {
-            throw new NotImplementedException();
+            return new GetUserResponse
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email
+            };
         }
 
         public LoginUserResponseDto MapUserToLoginUserResponseDto(User user)
         {
-            throw new NotImplementedException();
+            return new LoginUserResponseDto
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email
+            };
         }
 
         public RegisterUserResponseDto MapUserToRegisterUserResponseDto(User user)
         {
-            throw new NotImplementedException();
+            return new RegisterUserResponseDto
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email
+            };
         }
 
         public UpdateUserResponseDto MapUserToUpdateUserResponseDto(User user)
         {
-            throw new NotImplementedException();
+            return new UpdateUserResponseDto
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email
+            };
         }
     }
 }

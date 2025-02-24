@@ -14,12 +14,12 @@ namespace CarMaintenanceTrackerServer.Data.Repositories.UserRepository
             return user;
         }
 
-        public async Task<User?> LoginUser(int userId)
+        public async Task<User?> LoginUser(Guid userId)
         {
             return await dbContext.Users.FindAsync(userId);
         }
 
-        public async Task<User?> GetUserById(int userId)
+        public async Task<User?> GetUserById(Guid userId)
         {
             return await dbContext.Users.FindAsync(userId);
         }
@@ -36,7 +36,7 @@ namespace CarMaintenanceTrackerServer.Data.Repositories.UserRepository
             return user;
         }
 
-        public async Task<bool> DeleteUser(int userId)
+        public async Task<bool> DeleteUser(Guid userId)
         {
             var user = await dbContext.Users.FindAsync(userId);
             if (user == null) 
