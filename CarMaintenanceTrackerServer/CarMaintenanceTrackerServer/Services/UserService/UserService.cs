@@ -67,7 +67,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
             }
         }
 
-        public async Task<GetUserResponse> GetUserById(int userId)
+        public async Task<GetUserResponse> GetUserById(Guid userId)
         {
             try 
             {
@@ -105,14 +105,14 @@ namespace CarMaintenanceTrackerServer.Services.UserService
             }
         }
 
-        public async Task<UpdateUserResponseDto> UpdateUser(UpdateUserRequestDto user)
+        public async Task<UpdateUserResponseDto> UpdateUser(Guid userId, UpdateUserRequestDto user)
         {
             try
             {
-                var userEntity = await this.userRepository.GetUserById(user.Id);
+                var userEntity = await this.userRepository.GetUserById(userId);
                 if (userEntity == null)
                 {
-                    this.logger.LogError("User with the \"userId=\"{UserId} was not found.", user.Id);
+                    this.logger.LogError("User with the \"userId=\"{UserId} was not found.", userId);
                     return ResultFactory.CreateFailureResult<UpdateUserResponseDto>(new ErrorDetails($"{ErrorDetailCodes.UPDATE_USER_ERROR.GetDisplayName()}", "User not found.")).Value ?? new UpdateUserResponseDto();
                 }
                 if (!string.IsNullOrEmpty(user.Username) && user.Username != userEntity.Username)
@@ -133,7 +133,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
             }
         }
 
-        public async Task<bool> DeleteUser(int userId)
+        public async Task<bool> DeleteUser(Guid userId)
         {
             try
             {

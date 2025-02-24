@@ -7,9 +7,9 @@ namespace CarMaintenanceTrackerServer.Services.UserService
     {
         Task<RegisterUserResponseDto> RegisterUser(RegisterUserRequestDto user);
         Task<LoginUserResponseDto> LoginUser(LoginUserRequestDto user);
-        Task<GetUserResponse> GetUserById(int userId);
+        Task<GetUserResponse> GetUserById(Guid userId);
         Task<GetUserResponse> GetUserByUsername(string username);
-        Task<UpdateUserResponseDto> UpdateUser(UpdateUserRequestDto user);
-        Task<bool> DeleteUser(int userId);
+        Task<UpdateUserResponseDto> UpdateUser(Guid userId, UpdateUserRequestDto user);
+        Task<bool> DeleteUser(Guid userId);
     }
 }
