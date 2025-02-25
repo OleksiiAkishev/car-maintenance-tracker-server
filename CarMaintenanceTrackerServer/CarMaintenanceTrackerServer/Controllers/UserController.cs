@@ -27,10 +27,10 @@ namespace CarMaintenanceTrackerServer.Controllers
             try
             {
                 var result = this.userService.RegisterUser(user);
-                if (result == null)
+                if (!result.Result.IsSuccess)
                 {
                     this.logger.LogError(REGISTER_USER_ERROR_MESSAGE);
-                    return StatusCode(500, REGISTER_USER_ERROR_MESSAGE);
+                    return StatusCode(500, result);
                 }
                 this.logger.LogInformation("User registered successfully.");
                 return Ok(result);
@@ -53,10 +53,10 @@ namespace CarMaintenanceTrackerServer.Controllers
             try
             {
                 var result = this.userService.LoginUser(user);
-                if (result == null)
+                if (!result.Result.IsSuccess)
                 {
                     this.logger.LogError("User login failed.");
-                    return StatusCode(500, "Invalid username or password.");
+                    return StatusCode(500, result);
                 }
                 this.logger.LogInformation("User logged in successfully.");
                 return Ok(result);
@@ -74,10 +74,10 @@ namespace CarMaintenanceTrackerServer.Controllers
             try
             {
                 var result = this.userService.GetUserById(userId);
-                if (result == null)
+                if (!result.Result.IsSuccess)
                 {
                     this.logger.LogError("User not found.");
-                    return NotFound();
+                    return NotFound(result);
                 }
                 this.logger.LogInformation("User found successfully.");
                 return Ok(result);
@@ -96,10 +96,10 @@ namespace CarMaintenanceTrackerServer.Controllers
             try
             {
                 var result = this.userService.GetUserByUsername(username);
-                if (result == null)
+                if (!result.Result.IsSuccess)
                 {
                     this.logger.LogError("User not found.");
-                    return NotFound();
+                    return NotFound(result);
                 }
                 this.logger.LogInformation("User found successfully.");
                 return Ok(result);
@@ -123,10 +123,10 @@ namespace CarMaintenanceTrackerServer.Controllers
             try
             {
                 var result = this.userService.UpdateUser(userId, user);
-                if (result == null)
+                if (!result.Result.IsSuccess)
                 {
                     this.logger.LogError("User update failed.");
-                    return StatusCode(500, "User update failed.");
+                    return StatusCode(500, result);
                 }
                 this.logger.LogInformation("User updated successfully.");
                 return Ok(result);
@@ -145,13 +145,13 @@ namespace CarMaintenanceTrackerServer.Controllers
             try
             {
                 var result = this.userService.DeleteUser(userId);
-                if (result == null)
+                if (!result.Result.IsSuccess)
                 {
                     this.logger.LogError("User delete failed.");
-                    return StatusCode(500, "User delete failed.");
+                    return StatusCode(500, result);
                 }
                 this.logger.LogInformation("User deleted successfully.");
-                return Ok();
+                return Ok(result);
             }
             catch (Exception ex)
             {

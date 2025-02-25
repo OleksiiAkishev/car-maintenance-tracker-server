@@ -2,7 +2,7 @@
 
 namespace CarMaintenanceTrackerServer.Result
 {
-    public class FailureResult<T>(IResultError error) : IFailureResult<T>
+    public class FailureResult<T>(IResultError error) : IServiceResult<T>
     {
         public bool IsSuccess { get; } = false;
 
