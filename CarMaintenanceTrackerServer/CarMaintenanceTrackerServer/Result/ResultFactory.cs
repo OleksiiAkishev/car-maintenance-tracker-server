@@ -13,5 +13,10 @@ namespace CarMaintenanceTrackerServer.Result
         {
             return new FailureResult<T>(new ErrorDetails(error.Code, error.Message, error.Detail));
         }
+
+        public static IResultError CreateErrorDetails(string errorCode, string errorMessage, string? detail = null)
+        {
+            return new ErrorDetails(errorCode, errorMessage, detail);
+        }
     }
 }
