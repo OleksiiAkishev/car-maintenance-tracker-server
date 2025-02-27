@@ -1,14 +1,15 @@
 ﻿using CarMaintenanceTrackerServer.DTOs.Car.Request;
 using CarMaintenanceTrackerServer.DTOs.Car.Response;
+using CarMaintenanceTrackerServer.Result.Interfaces;
 
-namespace CarMaintenanceTrackerServer.Services.Car
+namespace CarMaintenanceTrackerServer.Services.CarService
 {
     public interface ICarService
     {
-        Task<GetCarResponseDto> GetCar(int carId);
-        Task<IEnumerable<GetAllCarsResponseDto>> GetAllCars();
-        Task<AddOrUpdateCarResponse> AddCar(AddOrUpdateCarRequestDto car);
-        Task<AddOrUpdateCarResponse> UpdateCar(int carId, AddOrUpdateCarRequestDto car);
-        Task<bool> DeleteCar(int carId);
+        Task<IServiceResult<GetCarResponseDto>> GetCar(Guid carId);
+        Task<IServiceResult<IEnumerable<GetAllCarsResponseDto>>> GetAllCars();
+        Task<IServiceResult<AddOrUpdateCarResponse>> AddCar(AddOrUpdateCarRequestDto car);
+        Task<IServiceResult<AddOrUpdateCarResponse>> UpdateCar(Guid carId, AddOrUpdateCarRequestDto car);
+        Task<IServiceResult<bool>> DeleteCar(Guid carId);
     }
 }

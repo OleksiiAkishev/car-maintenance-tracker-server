@@ -2,7 +2,7 @@
 
 namespace CarMaintenanceTrackerServer.Result
 {
-    public enum ErrorDetailCodes
+    public enum UserErrorDetailCodes
     {
         [Description("User null reference error")]
         NULL_USER_ERROR,

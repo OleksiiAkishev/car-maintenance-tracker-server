@@ -22,7 +22,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
             if (user == null)
             {
                 this.logger.LogError("Requested register user is null.");
-                return ResultFactory.CreateFailureResult<RegisterUserResponseDto>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.NULL_USER_ERROR.GetDisplayName(), "Provided user is null."));
+                return ResultFactory.CreateFailureResult<RegisterUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.NULL_USER_ERROR.GetDisplayName(), "Provided user is null."));
             }
             try
             {
@@ -35,7 +35,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "An error occurred while registering the user.");
-                return ResultFactory.CreateFailureResult<RegisterUserResponseDto>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.REGISTER_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
+                return ResultFactory.CreateFailureResult<RegisterUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.REGISTER_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
             }
         }
 
@@ -44,7 +44,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
             if (user == null)
             {
                 this.logger.LogError("Requested login user is null.");
-                return ResultFactory.CreateFailureResult<LoginUserResponseDto>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.NULL_USER_ERROR.GetDisplayName(), "Provided user is null."));
+                return ResultFactory.CreateFailureResult<LoginUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.NULL_USER_ERROR.GetDisplayName(), "Provided user is null."));
             }
             try
             {
@@ -52,19 +52,19 @@ namespace CarMaintenanceTrackerServer.Services.UserService
                 if (userEntity == null) 
                 {
                     this.logger.LogError("User with the \"username=\"{UserName} was not found.", user.Username);
-                    return ResultFactory.CreateFailureResult<LoginUserResponseDto>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.LOGIN_USER_ERROR.GetDisplayName(), "User not found."));
+                    return ResultFactory.CreateFailureResult<LoginUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.LOGIN_USER_ERROR.GetDisplayName(), "User not found."));
                 }
                 if (!this.passwordHasherHandler.VerifyHashedPassword(userEntity, userEntity.PasswordHash, user.Password))
                 {
                     this.logger.LogError("User with the \"username=\"{UserName} provided an incorrect password.", user.Username);
-                    return ResultFactory.CreateFailureResult<LoginUserResponseDto>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.LOGIN_USER_ERROR.GetDisplayName(), "Incorrect password."));
+                    return ResultFactory.CreateFailureResult<LoginUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.LOGIN_USER_ERROR.GetDisplayName(), "Incorrect password."));
                 }
                 return ResultFactory.CreateSuccessResult(userMapper.MapUserToLoginUserResponseDto(userEntity));
             }
             catch (Exception ex) 
             {
                 this.logger.LogError(ex, "An error occurred while logging in the user.");
-                return ResultFactory.CreateFailureResult<LoginUserResponseDto>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.LOGIN_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
+                return ResultFactory.CreateFailureResult<LoginUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.LOGIN_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
             }
         }
 
@@ -76,14 +76,14 @@ namespace CarMaintenanceTrackerServer.Services.UserService
                 if (userEntity == null)
                 {
                     this.logger.LogError("User with the \"userId=\"{UserId} was not found.", userId);
-                    return ResultFactory.CreateFailureResult<GetUserResponse>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), "User not found."));
+                    return ResultFactory.CreateFailureResult<GetUserResponse>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), "User not found."));
                 }
                 return ResultFactory.CreateSuccessResult(this.userMapper.MapUserToGetUserResponse(userEntity));
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "An error occurred while getting the user.");
-                return ResultFactory.CreateFailureResult<GetUserResponse>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
+                return ResultFactory.CreateFailureResult<GetUserResponse>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
             }
         }
 
@@ -95,14 +95,14 @@ namespace CarMaintenanceTrackerServer.Services.UserService
                 if (userEntity == null)
                 {
                     this.logger.LogError("User with the \"username=\"{UserName} was not found.", username);
-                    return ResultFactory.CreateFailureResult<GetUserResponse>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), "User not found."));
+                    return ResultFactory.CreateFailureResult<GetUserResponse>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), "User not found."));
                 }
                 return ResultFactory.CreateSuccessResult(this.userMapper.MapUserToGetUserResponse(userEntity));
             }
             catch (Exception ex) 
             {
                 this.logger.LogError(ex, "An error occurred while getting the user.");
-                return ResultFactory.CreateFailureResult<GetUserResponse>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
+                return ResultFactory.CreateFailureResult<GetUserResponse>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
             }
         }
 
@@ -114,7 +114,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
                 if (userEntity == null)
                 {
                     this.logger.LogError("User with the \"userId=\"{UserId} was not found.", userId);
-                    return ResultFactory.CreateFailureResult<UpdateUserResponseDto>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.UPDATE_USER_ERROR.GetDisplayName(), "User not found."));
+                    return ResultFactory.CreateFailureResult<UpdateUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.UPDATE_USER_ERROR.GetDisplayName(), "User not found."));
                 }
                 if (!string.IsNullOrEmpty(user.Username) && user.Username != userEntity.Username)
                 {
@@ -130,7 +130,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "An error occurred while updating the user.");
-                return ResultFactory.CreateFailureResult<UpdateUserResponseDto>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.UPDATE_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
+                return ResultFactory.CreateFailureResult<UpdateUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.UPDATE_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
             }
         }
 
@@ -142,7 +142,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
                 if (userEntity == null)
                 {
                     this.logger.LogError("User with the \"userId=\"{UserId} was not found.", userId);
-                    return ResultFactory.CreateFailureResult<bool>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.DELETE_USER_ERROR.GetDisplayName(), "User not found."));
+                    return ResultFactory.CreateFailureResult<bool>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.DELETE_USER_ERROR.GetDisplayName(), "User not found."));
                 }
                 var deletedUserResult = await this.userRepository.DeleteUser(userEntity);
                 return ResultFactory.CreateSuccessResult(deletedUserResult);
@@ -150,7 +150,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
             catch (Exception ex) 
             {
                 this.logger.LogError(ex, "An error occurred while deleting the user.");
-                return ResultFactory.CreateFailureResult<bool>(ResultFactory.CreateErrorDetails(ErrorDetailCodes.DELETE_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
+                return ResultFactory.CreateFailureResult<bool>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.DELETE_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
             }
         }
     }
