@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarMaintenanceTrackerServer.Data.Repositories.UserRepository
 {
-    public class UserRepository(CarMaintenanceTrackerDbContext dbContext) : IUserRepository
+    public class UserRepository(ServerDbContext dbContext) : IUserRepository
     {
-        private readonly CarMaintenanceTrackerDbContext dbContext = dbContext;
+        private readonly ServerDbContext dbContext = dbContext;
 
         public async Task<User> RegisterUser(User user)
         {
@@ -38,7 +38,8 @@ namespace CarMaintenanceTrackerServer.Data.Repositories.UserRepository
 
         public async Task<bool> DeleteUser(User user)
         {
-            this.dbContext.Users.Remove(user);
+            user.IsDeleted = true;
+            this.dbContext.Users.Update(user);
             await this.dbContext.SaveChangesAsync();
             return true;
         }

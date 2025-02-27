@@ -1,36 +1,42 @@
-﻿using CarEntity = CarMaintenanceTrackerServer.Data.Entities.Car;
+﻿using CarMaintenanceTrackerServer.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace CarMaintenanceTrackerServer.Data.Repositories.Car
+namespace CarMaintenanceTrackerServer.Data.Repositories.CarRepository
 {
-    public class CarRepository : ICarRepository
+    public class CarRepository(ServerDbContext dbContext) : ICarRepository
     {
-        public CarRepository()
+        private readonly ServerDbContext dbContext = dbContext;
+
+        public async Task<IEnumerable<Car>> GetAllCars()
         {
-            
-        }
-        public Task<CarEntity> AddCar(CarEntity car)
-        {
-            throw new NotImplementedException();
+            return await this.dbContext.Cars.ToListAsync();
         }
 
-        public Task<bool> DeleteCar(int carId)
+        public async Task<Car?> GetCar(Guid carId)
         {
-            throw new NotImplementedException();
+            return await this.dbContext.Cars.FirstOrDefaultAsync(c => c.Id == carId);
         }
 
-        public Task<IEnumerable<CarEntity>> GetAllCars()
+        public async Task<Car?> AddCar(Car car)
         {
-            throw new NotImplementedException();
+            await this.dbContext.Cars.AddAsync(car);
+            await this.dbContext.SaveChangesAsync();
+            return car;
         }
 
-        public Task<CarEntity> GetCar(int carId)
+        public async Task<Car?> UpdateCar(Car car)
         {
-            throw new NotImplementedException();
+            this.dbContext.Cars.Update(car);
+            await this.dbContext.SaveChangesAsync();
+            return car;
         }
 
-        public Task<CarEntity> UpdateCar(int carId, CarEntity car)
+        public async Task<bool> DeleteCar(Car car)
         {
-            throw new NotImplementedException();
+            car.IsDeleted = true;
+            this.dbContext.Cars.Update(car);
+            await this.dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }
