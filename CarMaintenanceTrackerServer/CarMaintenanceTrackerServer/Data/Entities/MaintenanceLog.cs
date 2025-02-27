@@ -4,7 +4,7 @@ namespace CarMaintenanceTrackerServer.Data.Entities
 {
     public class MaintenanceLog
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -14,7 +14,7 @@ namespace CarMaintenanceTrackerServer.Data.Entities
 
         public string? Notes { get; set; }
 
-        public int CarId { get; set; }
+        public Guid CarId { get; set; }
 
         [Required]
         public required Car Car { get; set; }

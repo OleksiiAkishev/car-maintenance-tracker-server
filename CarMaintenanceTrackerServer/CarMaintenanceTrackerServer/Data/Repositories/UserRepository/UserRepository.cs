@@ -3,48 +3,44 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CarMaintenanceTrackerServer.Data.Repositories.UserRepository
 {
-    public class UserRepository(CarMaintenanceTrackerDbContext dbContext) : IUserRepository
+    public class UserRepository(ServerDbContext dbContext) : IUserRepository
     {
-        private readonly CarMaintenanceTrackerDbContext dbContext = dbContext;
+        private readonly ServerDbContext dbContext = dbContext;
 
         public async Task<User> RegisterUser(User user)
         {
-            dbContext.Users.Add(user);
-            await dbContext.SaveChangesAsync();
+            this.dbContext.Users.Add(user);
+            await this.dbContext.SaveChangesAsync();
             return user;
         }
 
         public async Task<User?> LoginUser(Guid userId)
         {
-            return await dbContext.Users.FindAsync(userId);
+            return await this.dbContext.Users.FindAsync(userId);
         }
 
         public async Task<User?> GetUserById(Guid userId)
         {
-            return await dbContext.Users.FindAsync(userId);
+            return await this.dbContext.Users.FindAsync(userId);
         }
 
         public async Task<User?> GetUserByUsername(string username)
         {
-            return await dbContext.Users.FirstOrDefaultAsync(x => x.Username == username);
+            return await this.dbContext.Users.FirstOrDefaultAsync(x => x.Username == username);
         }
 
         public async Task<User> UpdateUser(User user)
         {
-            dbContext.Users.Update(user);
-            await dbContext.SaveChangesAsync();
+            this.dbContext.Users.Update(user);
+            await this.dbContext.SaveChangesAsync();
             return user;
         }
 
-        public async Task<bool> DeleteUser(Guid userId)
+        public async Task<bool> DeleteUser(User user)
         {
-            var user = await dbContext.Users.FindAsync(userId);
-            if (user == null) 
-            {
-                return false;
-            }
-            dbContext.Users.Remove(user);
-            await dbContext.SaveChangesAsync();
+            user.IsDeleted = true;
+            this.dbContext.Users.Update(user);
+            await this.dbContext.SaveChangesAsync();
             return true;
         }
     }

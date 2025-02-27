@@ -138,7 +138,13 @@ namespace CarMaintenanceTrackerServer.Services.UserService
         {
             try
             {
-                var deletedUserResult = await this.userRepository.DeleteUser(userId);
+                var userEntity = await this.userRepository.GetUserById(userId);
+                if (userEntity == null)
+                {
+                    this.logger.LogError("User with the \"userId=\"{UserId} was not found.", userId);
+                    return ResultFactory.CreateFailureResult<bool>(new ErrorDetails($"{ErrorDetailCodes.DELETE_USER_ERROR.GetDisplayName()}", "User not found."));
+                }
+                var deletedUserResult = await this.userRepository.DeleteUser(userEntity);
                 return ResultFactory.CreateSuccessResult(deletedUserResult);
             }
             catch (Exception ex) 

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarMaintenanceTrackerServer.Migrations
 {
-    [DbContext(typeof(CarMaintenanceTrackerDbContext))]
+    [DbContext(typeof(Data.ServerDbContext))]
     partial class CarMaintenanceTrackerDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

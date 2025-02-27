@@ -14,6 +14,8 @@ namespace CarMaintenanceTrackerServer.Data.Entities
 
         public string PasswordHash { get; set; } = string.Empty;
 
-        public IEnumerable<Car> Cars { get; set;} = [];
+        public bool IsDeleted { get; set; } = false;
+
+        public ICollection<Car> Cars { get; set;} = [];
     }
 }

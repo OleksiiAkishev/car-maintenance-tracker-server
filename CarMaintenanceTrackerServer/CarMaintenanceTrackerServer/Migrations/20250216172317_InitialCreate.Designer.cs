@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarMaintenanceTrackerServer.Migrations
 {
-    [DbContext(typeof(CarMaintenanceTrackerDbContext))]
+    [DbContext(typeof(Data.ServerDbContext))]
     [Migration("20250216172317_InitialCreate")]
     partial class InitialCreate
     {
