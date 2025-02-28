@@ -31,12 +31,33 @@ namespace CarMaintenanceTrackerServer.Services.CarService
 
         public async Task<IServiceResult<GetCarResponseDto>> GetCar(Guid carId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var car = await carRepository.GetCar(carId);
+                if (car == null) 
+                {
+                    this.logger.LogError("Car with \"Id=\"{CarId} was not found.", carId);
+                    return ResultFactory.CreateFailureResult<GetCarResponseDto>(ResultFactory.CreateErrorDetails(CarErrorDetailsCodes.GET_CAR_ERROR.GetDisplayName(), $"Car was not found."));
+                }
+                return ResultFactory.CreateSuccessResult(this.carMapper.MapCarToGetCarResponseDto(car));
+            }
+            catch (Exception ex) 
+            {
+                this.logger.LogError(ex, "An error occurred while getting car by id:{CarId}.", carId);
+                return ResultFactory.CreateFailureResult<GetCarResponseDto>(ResultFactory.CreateErrorDetails(CarErrorDetailsCodes.GET_CAR_ERROR.GetDisplayName(), ex.Message));
+            }
         }
 
         public async Task<IServiceResult<AddOrUpdateCarResponse>> AddCar(AddOrUpdateCarRequestDto car)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+            }
+            catch (Exception ex) 
+            {
+
+            }
         }
 
         public async Task<IServiceResult<AddOrUpdateCarResponse>> UpdateCar(Guid carId, AddOrUpdateCarRequestDto car)
