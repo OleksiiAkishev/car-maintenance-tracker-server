@@ -43,31 +43,68 @@ namespace CarMaintenanceTrackerServer.Services.CarService
             }
             catch (Exception ex) 
             {
-                this.logger.LogError(ex, "An error occurred while getting car by id:{CarId}.", carId);
+                this.logger.LogError(ex, "An error occurred while getting car by \"Id=\"{CarId}.", carId);
                 return ResultFactory.CreateFailureResult<GetCarResponseDto>(ResultFactory.CreateErrorDetails(CarErrorDetailsCodes.GET_CAR_ERROR.GetDisplayName(), ex.Message));
             }
         }
 
-        public async Task<IServiceResult<AddOrUpdateCarResponse>> AddCar(AddOrUpdateCarRequestDto car)
+        public async Task<IServiceResult<AddCarResponseDto>> AddCar(AddCarRequestDto car)
         {
             try
             {
-
+                if (car == null) 
+                {
+                    this.logger.LogError("Requested add car is null.");
+                    return ResultFactory.CreateFailureResult<AddCarResponseDto>(ResultFactory.CreateErrorDetails(CarErrorDetailsCodes.ADD_CAR_ERROR.GetDisplayName(), "Provided car is null."));
+                }
+                var result = await this.carRepository.AddCar(this.carMapper.MapAddCarRequestDtoToCar(car));
+                return ResultFactory.CreateSuccessResult(this.carMapper.MapCarToAddCarResponseDto(result));
             }
             catch (Exception ex) 
             {
-
+                this.logger.LogError(ex, "An error occurred while adding a car. \"Id=\"{CarId}", car.);
+                return ResultFactory.CreateFailureResult<AddCarResponseDto>(ResultFactory.CreateErrorDetails(CarErrorDetailsCodes.ADD_CAR_ERROR.GetDisplayName(), ex.Message));
             }
         }
 
-        public async Task<IServiceResult<AddOrUpdateCarResponse>> UpdateCar(Guid carId, AddOrUpdateCarRequestDto car)
+        public async Task<IServiceResult<UpdateCarResponseDto>> UpdateCar(Guid carId, UpdateCarRequestDto car)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var carEntity = await this.carRepository.GetCar(carId);
+                if (carEntity == null)
+                {
+                    this.logger.LogError("Car with \"Id=\"{CarId} was not found.", carId);
+                    return ResultFactory.CreateFailureResult<UpdateCarResponseDto>(ResultFactory.CreateErrorDetails(CarErrorDetailsCodes.UPDATE_CAR_ERROR.GetDisplayName(), $"Car was not found."));
+                }
+                var updatedCar = await this.carRepository.UpdateCar(this.carMapper.MapUpdateCarRequestDtoToCar(car));
+                return ResultFactory.CreateSuccessResult(this.carMapper.MapCarToUpdateCarResponseDto(updatedCar));
+            }
+            catch (Exception ex) 
+            {
+                this.logger.LogError(ex, "An error occurred while updating a car. \"Id=\"{CarId}", carId);
+                return ResultFactory.CreateFailureResult<UpdateCarResponseDto>(ResultFactory.CreateErrorDetails(CarErrorDetailsCodes.UPDATE_CAR_ERROR.GetDisplayName(), ex.Message));
+            }
         }
 
         public async Task<IServiceResult<bool>> DeleteCar(Guid carId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var carEntity = await this.carRepository.GetCar(carId);
+                if (carEntity == null)
+                {
+                    this.logger.LogError("Car with \"Id=\"{CarId} was not found.", carId);
+                    return ResultFactory.CreateFailureResult<bool>(ResultFactory.CreateErrorDetails(CarErrorDetailsCodes.DELETE_CAR_ERROR.GetDisplayName(), $"Car was not found."));
+                }
+                var result = await this.carRepository.DeleteCar(carEntity);
+                return ResultFactory.CreateSuccessResult(result);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "An error occurred while deleting a car. \"Id=\"{CarId}", carId);
+                return ResultFactory.CreateFailureResult<bool>(ResultFactory.CreateErrorDetails(CarErrorDetailsCodes.DELETE_CAR_ERROR.GetDisplayName(), ex.Message));
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace CarMaintenanceTrackerServer.DTOs.Car.Response
 {
-    public class AddOrUpdateCarResponse
+    public class UpdateCarResponseDto
     {
     }
 }

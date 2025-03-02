@@ -20,13 +20,13 @@ namespace CarMaintenanceTrackerServer.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddCar(AddOrUpdateCarRequestDto car)
+        public IActionResult AddCar(AddCarRequestDto car)
         {
             return Ok();
         }
 
         [HttpPut]
-        public IActionResult UpdateCar(AddOrUpdateCarRequestDto car)
+        public IActionResult UpdateCar(AddCarRequestDto car)
         {
             return Ok();
         }

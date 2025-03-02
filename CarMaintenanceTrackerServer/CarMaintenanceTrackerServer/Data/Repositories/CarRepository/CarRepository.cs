@@ -17,14 +17,14 @@ namespace CarMaintenanceTrackerServer.Data.Repositories.CarRepository
             return await this.dbContext.Cars.FirstOrDefaultAsync(c => c.Id == carId);
         }
 
-        public async Task<Car?> AddCar(Car car)
+        public async Task<Car> AddCar(Car car)
         {
             await this.dbContext.Cars.AddAsync(car);
             await this.dbContext.SaveChangesAsync();
             return car;
         }
 
-        public async Task<Car?> UpdateCar(Car car)
+        public async Task<Car> UpdateCar(Car car)
         {
             this.dbContext.Cars.Update(car);
             await this.dbContext.SaveChangesAsync();
