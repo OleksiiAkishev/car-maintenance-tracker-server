@@ -62,7 +62,7 @@ namespace CarMaintenanceTrackerServer.Services.CarService
             }
             catch (Exception ex) 
             {
-                this.logger.LogError(ex, "An error occurred while adding a car. \"Maker=\"{Maker}, \"Model=\"{Model}, \"Username=\"{UserName} ", car.Maker, car.Model, car.User.Username);
+                this.logger.LogError(ex, "An error occurred while adding a car. \"Maker=\"{Maker}, \"Model=\"{Model}, \"Username=\"{UserName}", car.Maker, car.Model, car.User.Username);
                 return ResultFactory.CreateFailureResult<AddCarResponseDto>(ResultFactory.CreateErrorDetails(CarErrorDetailsCodes.ADD_CAR_ERROR.GetDisplayName(), ex.Message));
             }
         }
