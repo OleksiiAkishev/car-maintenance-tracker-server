@@ -26,7 +26,7 @@ namespace CarMaintenanceTrackerServer.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateCar(AddCarRequestDto car)
+        public IActionResult UpdateCar(UpdateCarRequestDto car)
         {
             return Ok();
         }

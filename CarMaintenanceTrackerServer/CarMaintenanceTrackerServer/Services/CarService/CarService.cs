@@ -62,7 +62,7 @@ namespace CarMaintenanceTrackerServer.Services.CarService
             }
             catch (Exception ex) 
             {
-                this.logger.LogError(ex, "An error occurred while adding a car. \"Id=\"{CarId}", car.);
+                this.logger.LogError(ex, "An error occurred while adding a car. \"Maker=\"{Maker}, \"Model=\"{Model}, \"Username=\"{UserName} ", car.Maker, car.Model, car.User.Username);
                 return ResultFactory.CreateFailureResult<AddCarResponseDto>(ResultFactory.CreateErrorDetails(CarErrorDetailsCodes.ADD_CAR_ERROR.GetDisplayName(), ex.Message));
             }
         }
@@ -77,7 +77,23 @@ namespace CarMaintenanceTrackerServer.Services.CarService
                     this.logger.LogError("Car with \"Id=\"{CarId} was not found.", carId);
                     return ResultFactory.CreateFailureResult<UpdateCarResponseDto>(ResultFactory.CreateErrorDetails(CarErrorDetailsCodes.UPDATE_CAR_ERROR.GetDisplayName(), $"Car was not found."));
                 }
-                var updatedCar = await this.carRepository.UpdateCar(this.carMapper.MapUpdateCarRequestDtoToCar(car));
+                if (!string.IsNullOrEmpty(car.Maker) && car.Maker != carEntity.Maker)
+                {
+                    carEntity.Maker = car.Maker;
+                }
+                if (!string.IsNullOrEmpty(car.Model) && car.Model != carEntity.Model)
+                {
+                    carEntity.Model = car.Model;
+                }
+                if (car.Year != carEntity.Year)
+                {
+                    carEntity.Year = car.Year;
+                }
+                if (!string.IsNullOrEmpty(car.LicensePlate) && car.LicensePlate != carEntity.LicensePlate)
+                {
+                    carEntity.LicensePlate = car.LicensePlate;
+                }
+                var updatedCar = await this.carRepository.UpdateCar(carEntity);
                 return ResultFactory.CreateSuccessResult(this.carMapper.MapCarToUpdateCarResponseDto(updatedCar));
             }
             catch (Exception ex) 

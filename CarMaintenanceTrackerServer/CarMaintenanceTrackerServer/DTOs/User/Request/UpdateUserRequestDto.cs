@@ -1,6 +1,4 @@
-﻿using CarMaintenanceTrackerServer.DTOs.Car.Request;
-
-namespace CarMaintenanceTrackerServer.DTOs.User.Request
+﻿namespace CarMaintenanceTrackerServer.DTOs.User.Request
 {
     public class UpdateUserRequestDto
     {
