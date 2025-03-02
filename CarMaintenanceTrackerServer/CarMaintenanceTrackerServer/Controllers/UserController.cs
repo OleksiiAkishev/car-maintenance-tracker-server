@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarMaintenanceTrackerServer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UserController(IUserService userService, ILogger logger) : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace CarMaintenanceTrackerServer.Controllers
         #endregion
 
         [HttpPost("auth/register")]
-        public IActionResult Register([FromBody] RegisterUserRequestDto user)
+        public async Task<IActionResult> Register([FromBody] RegisterUserRequestDto user)
         {
             if (!ModelState.IsValid)
             {
@@ -26,8 +26,8 @@ namespace CarMaintenanceTrackerServer.Controllers
             }
             try
             {
-                var result = this.userService.RegisterUser(user);
-                if (!result.Result.IsSuccess)
+                var result = await this.userService.RegisterUser(user);
+                if (!result.IsSuccess)
                 {
                     this.logger.LogError(REGISTER_USER_ERROR_MESSAGE);
                     return StatusCode(500, result);
@@ -43,7 +43,7 @@ namespace CarMaintenanceTrackerServer.Controllers
         }
 
         [HttpPost("auth/login")]
-        public IActionResult Login([FromBody] LoginUserRequestDto user)
+        public async Task<IActionResult> Login([FromBody] LoginUserRequestDto user)
         {
             if (!ModelState.IsValid)
             {
@@ -52,8 +52,8 @@ namespace CarMaintenanceTrackerServer.Controllers
             }
             try
             {
-                var result = this.userService.LoginUser(user);
-                if (!result.Result.IsSuccess)
+                var result = await this.userService.LoginUser(user);
+                if (!result.IsSuccess)
                 {
                     this.logger.LogError("User login failed.");
                     return StatusCode(500, result);
@@ -68,13 +68,13 @@ namespace CarMaintenanceTrackerServer.Controllers
             }
         }
 
-        [HttpGet("users/{userId}")]
-        public IActionResult GetUserById(Guid userId)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserById(Guid userId)
         {
             try
             {
-                var result = this.userService.GetUserById(userId);
-                if (!result.Result.IsSuccess)
+                var result = await this.userService.GetUserById(userId);
+                if (!result.IsSuccess)
                 {
                     this.logger.LogError("User not found.");
                     return NotFound(result);
@@ -90,13 +90,13 @@ namespace CarMaintenanceTrackerServer.Controllers
             }
         }
 
-        [HttpGet("users")]
-        public IActionResult GetUserByUsername([FromQuery] string username) 
+        [HttpGet]
+        public async Task<IActionResult> GetUserByUsername([FromQuery] string username) 
         {
             try
             {
-                var result = this.userService.GetUserByUsername(username);
-                if (!result.Result.IsSuccess)
+                var result = await this.userService.GetUserByUsername(username);
+                if (!result.IsSuccess)
                 {
                     this.logger.LogError("User not found.");
                     return NotFound(result);
@@ -112,8 +112,8 @@ namespace CarMaintenanceTrackerServer.Controllers
             }
         }
 
-        [HttpPut("users/{userId}")]
-        public IActionResult UpdateUser(Guid userId, [FromBody] UpdateUserRequestDto user)
+        [HttpPut("{userId}")]
+        public async Task<IActionResult> UpdateUser(Guid userId, [FromBody] UpdateUserRequestDto user)
         {
             if (!ModelState.IsValid)
             {
@@ -122,8 +122,8 @@ namespace CarMaintenanceTrackerServer.Controllers
             }
             try
             {
-                var result = this.userService.UpdateUser(userId, user);
-                if (!result.Result.IsSuccess)
+                var result = await this.userService.UpdateUser(userId, user);
+                if (!result.IsSuccess)
                 {
                     this.logger.LogError("User update failed.");
                     return StatusCode(500, result);
@@ -139,13 +139,13 @@ namespace CarMaintenanceTrackerServer.Controllers
             }
         }
 
-        [HttpDelete("users/{userId}")]
-        public IActionResult DeleteUser(Guid userId) 
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteUser(Guid userId) 
         {
             try
             {
-                var result = this.userService.DeleteUser(userId);
-                if (!result.Result.IsSuccess)
+                var result = await this.userService.DeleteUser(userId);
+                if (!result.IsSuccess)
                 {
                     this.logger.LogError("User delete failed.");
                     return StatusCode(500, result);

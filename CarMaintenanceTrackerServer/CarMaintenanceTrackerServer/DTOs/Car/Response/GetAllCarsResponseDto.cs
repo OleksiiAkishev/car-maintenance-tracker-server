@@ -2,5 +2,6 @@
 {
     public class GetAllCarsResponseDto
     {
+        public ICollection<GetCarResponseDto> Cars { get; set; } = [];
     }
 }

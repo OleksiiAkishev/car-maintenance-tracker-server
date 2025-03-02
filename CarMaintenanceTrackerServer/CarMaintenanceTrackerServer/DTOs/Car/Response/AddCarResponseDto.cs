@@ -3,7 +3,7 @@ using CarMaintenanceTrackerServer.DTOs.User.Response;
 
 namespace CarMaintenanceTrackerServer.DTOs.Car.Response
 {
-    public class GetCarResponseDto
+    public class AddCarResponseDto
     {
         public Guid Id { get; set; }
 
@@ -17,10 +17,10 @@ namespace CarMaintenanceTrackerServer.DTOs.Car.Response
 
         public Guid UserId { get; set; }
 
-        public required GetUserResponseDto User { get; set; }
+        public required AddUserResponseDto User { get; set; }
 
         public bool IsDeleted { get; set; } = false;
 
-        public ICollection<GetLogMaintenanceResponseDto> MaintenanceLogs { get; set; } = [];
+        public ICollection<LogMaintenanceResponseDto> MaintenanceLogs { get; set; } = [];
     }
 }

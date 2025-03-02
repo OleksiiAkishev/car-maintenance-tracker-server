@@ -68,7 +68,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
             }
         }
 
-        public async Task<IServiceResult<GetUserResponse>> GetUserById(Guid userId)
+        public async Task<IServiceResult<GetUserResponseDto>> GetUserById(Guid userId)
         {
             try 
             {
@@ -76,18 +76,18 @@ namespace CarMaintenanceTrackerServer.Services.UserService
                 if (userEntity == null)
                 {
                     this.logger.LogError("User with the \"userId=\"{UserId} was not found.", userId);
-                    return ResultFactory.CreateFailureResult<GetUserResponse>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), "User not found."));
+                    return ResultFactory.CreateFailureResult<GetUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), "User not found."));
                 }
                 return ResultFactory.CreateSuccessResult(this.userMapper.MapUserToGetUserResponse(userEntity));
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "An error occurred while getting the user.");
-                return ResultFactory.CreateFailureResult<GetUserResponse>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
+                return ResultFactory.CreateFailureResult<GetUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
             }
         }
 
-        public async Task<IServiceResult<GetUserResponse>> GetUserByUsername(string username)
+        public async Task<IServiceResult<GetUserResponseDto>> GetUserByUsername(string username)
         {
             try
             {
@@ -95,14 +95,14 @@ namespace CarMaintenanceTrackerServer.Services.UserService
                 if (userEntity == null)
                 {
                     this.logger.LogError("User with the \"username=\"{UserName} was not found.", username);
-                    return ResultFactory.CreateFailureResult<GetUserResponse>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), "User not found."));
+                    return ResultFactory.CreateFailureResult<GetUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), "User not found."));
                 }
                 return ResultFactory.CreateSuccessResult(this.userMapper.MapUserToGetUserResponse(userEntity));
             }
             catch (Exception ex) 
             {
                 this.logger.LogError(ex, "An error occurred while getting the user.");
-                return ResultFactory.CreateFailureResult<GetUserResponse>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
+                return ResultFactory.CreateFailureResult<GetUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
             }
         }
 

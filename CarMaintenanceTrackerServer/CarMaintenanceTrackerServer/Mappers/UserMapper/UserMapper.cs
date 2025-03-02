@@ -15,9 +15,9 @@ namespace CarMaintenanceTrackerServer.Mappers.UserMapper
             };
         }
 
-        public GetUserResponse MapUserToGetUserResponse(User user)
+        public GetUserResponseDto MapUserToGetUserResponse(User user)
         {
-            return new GetUserResponse
+            return new GetUserResponseDto
             {
                 Id = user.Id,
                 Username = user.Username,

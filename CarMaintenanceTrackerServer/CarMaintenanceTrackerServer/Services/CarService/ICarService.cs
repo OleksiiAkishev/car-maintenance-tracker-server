@@ -8,8 +8,8 @@ namespace CarMaintenanceTrackerServer.Services.CarService
     {
         Task<IServiceResult<GetCarResponseDto>> GetCar(Guid carId);
         Task<IServiceResult<IEnumerable<GetAllCarsResponseDto>>> GetAllCars();
-        Task<IServiceResult<AddOrUpdateCarResponse>> AddCar(AddOrUpdateCarRequestDto car);
-        Task<IServiceResult<AddOrUpdateCarResponse>> UpdateCar(Guid carId, AddOrUpdateCarRequestDto car);
+        Task<IServiceResult<AddCarResponseDto>> AddCar(AddCarRequestDto car);
+        Task<IServiceResult<UpdateCarResponseDto>> UpdateCar(Guid carId, UpdateCarRequestDto car);
         Task<IServiceResult<bool>> DeleteCar(Guid carId);
     }
 }

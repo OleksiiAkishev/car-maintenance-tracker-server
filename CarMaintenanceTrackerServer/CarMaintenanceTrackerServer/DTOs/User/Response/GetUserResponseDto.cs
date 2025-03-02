@@ -2,7 +2,7 @@
 
 namespace CarMaintenanceTrackerServer.DTOs.User.Response
 {
-    public class GetUserResponse
+    public class GetUserResponseDto
     {
         public Guid Id { get; set; }
         public string? Username { get; set; }
