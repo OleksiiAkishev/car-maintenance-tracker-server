@@ -36,12 +36,12 @@ namespace CarMaintenanceTrackerServer.Data.Repositories.UserRepository
             return user;
         }
 
-        public async Task<bool> DeleteUser(User user)
+        public async Task<User> DeleteUser(User user)
         {
             user.IsDeleted = true;
             this.dbContext.Users.Update(user);
             await this.dbContext.SaveChangesAsync();
-            return true;
+            return user;
         }
     }
 }

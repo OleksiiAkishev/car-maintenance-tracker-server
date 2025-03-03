@@ -54,5 +54,16 @@ namespace CarMaintenanceTrackerServer.Mappers.UserMapper
                 Email = user.Email
             };
         }
+
+        public DeleteUserResponseDto MapUserToDeleteUserResponseDto(User user)
+        {
+            return new DeleteUserResponseDto
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email,
+                IsDeleted = user.IsDeleted
+            };
+        }
     }
 }

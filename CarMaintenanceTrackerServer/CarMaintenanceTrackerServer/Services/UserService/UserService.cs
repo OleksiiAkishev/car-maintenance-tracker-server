@@ -56,8 +56,8 @@ namespace CarMaintenanceTrackerServer.Services.UserService
                 }
                 if (!this.passwordHasherHandler.VerifyHashedPassword(userEntity, userEntity.PasswordHash, user.Password))
                 {
-                    this.logger.LogError("User with the \"username=\"{UserName} provided an incorrect password.", user.Username);
-                    return ResultFactory.CreateFailureResult<LoginUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.LOGIN_USER_ERROR.GetDisplayName(), "Incorrect password."));
+                    this.logger.LogError("User with the \"username=\"{UserName} provided incorrect credentials.", user.Username);
+                    return ResultFactory.CreateFailureResult<LoginUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.LOGIN_USER_ERROR.GetDisplayName(), "Incorrect user credentials."));
                 }
                 return ResultFactory.CreateSuccessResult(userMapper.MapUserToLoginUserResponseDto(userEntity));
             }
@@ -82,7 +82,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "An error occurred while getting the user.");
+                this.logger.LogError(ex, "An error occurred while getting the user by user id.");
                 return ResultFactory.CreateFailureResult<GetUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
             }
         }
@@ -101,7 +101,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
             }
             catch (Exception ex) 
             {
-                this.logger.LogError(ex, "An error occurred while getting the user.");
+                this.logger.LogError(ex, "An error occurred while getting the user by username.");
                 return ResultFactory.CreateFailureResult<GetUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.FIND_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
             }
         }
@@ -134,7 +134,7 @@ namespace CarMaintenanceTrackerServer.Services.UserService
             }
         }
 
-        public async Task<IServiceResult<bool>> DeleteUser(Guid userId)
+        public async Task<IServiceResult<DeleteUserResponseDto>> DeleteUser(Guid userId)
         {
             try
             {
@@ -142,15 +142,15 @@ namespace CarMaintenanceTrackerServer.Services.UserService
                 if (userEntity == null)
                 {
                     this.logger.LogError("User with the \"userId=\"{UserId} was not found.", userId);
-                    return ResultFactory.CreateFailureResult<bool>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.DELETE_USER_ERROR.GetDisplayName(), "User not found."));
+                    return ResultFactory.CreateFailureResult<DeleteUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.DELETE_USER_ERROR.GetDisplayName(), "User not found."));
                 }
                 var deletedUserResult = await this.userRepository.DeleteUser(userEntity);
-                return ResultFactory.CreateSuccessResult(deletedUserResult);
+                return ResultFactory.CreateSuccessResult(this.userMapper.MapUserToDeleteUserResponseDto(deletedUserResult));
             }
             catch (Exception ex) 
             {
                 this.logger.LogError(ex, "An error occurred while deleting the user.");
-                return ResultFactory.CreateFailureResult<bool>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.DELETE_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
+                return ResultFactory.CreateFailureResult<DeleteUserResponseDto>(ResultFactory.CreateErrorDetails(UserErrorDetailCodes.DELETE_USER_ERROR.GetDisplayName(), ex.Message, ex.StackTrace));
             }
         }
     }

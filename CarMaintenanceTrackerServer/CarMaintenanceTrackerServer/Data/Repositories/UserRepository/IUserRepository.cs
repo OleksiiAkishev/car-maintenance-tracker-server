@@ -9,6 +9,6 @@ namespace CarMaintenanceTrackerServer.Data.Repositories.UserRepository
         Task<User?> GetUserById(Guid userId);
         Task<User?> GetUserByUsername(string username);
         Task<User> UpdateUser(User user);
-        Task<bool> DeleteUser(User user); 
+        Task<User> DeleteUser(User user); 
     }
 }
