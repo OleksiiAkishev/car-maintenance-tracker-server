@@ -1,6 +1,7 @@
 ﻿using CarMaintenanceTrackerServer.Data;
 using CarMaintenanceTrackerServer.Data.Entities;
 using CarMaintenanceTrackerServer.Data.Repositories.UserRepository;
+using CarMaintenanceTrackerServer.DTOs.User.Response;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarMaintenanceTrackerServerTests.Data.Repositories
@@ -174,9 +175,10 @@ namespace CarMaintenanceTrackerServerTests.Data.Repositories
         public async Task DeleteUser_WhenCallWithExistingUser_ShouldDeleteUser()
         {
             // Arrange
+            var userId = Guid.NewGuid();
             var user = new User()
             {
-                Id = Guid.NewGuid(),
+                Id = userId,
                 Username = "User1",
                 Email = "user1@domain.com"
             };
@@ -187,7 +189,7 @@ namespace CarMaintenanceTrackerServerTests.Data.Repositories
             var result = await this.userRepository.DeleteUser(user);
 
             // Assert
-            Assert.True(result);
+            Assert.True(result.IsDeleted);
             var userFromDb = await dbContext.Users.FirstAsync(u => u.Id == user.Id);
             Assert.True(userFromDb.IsDeleted);
         }
